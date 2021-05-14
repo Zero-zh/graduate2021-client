@@ -15,3 +15,11 @@ export function getEpidemicNews(token) {
         params: { token }
     })
 }
+
+export function homePageEpidemic(token) {
+    return request({
+        url: '/broadcast/homePageEpidemic',
+        method: 'get',
+        params: { token }
+    })
+}
