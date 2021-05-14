@@ -278,7 +278,6 @@ export default {
   },
   methods: {
     handleCurrentChange(val) {
-      console.log("THIS IS handleCurrentChange" + val);
       this.currentPage = val;
       this.fetchAskAndAnswerData();
     },
@@ -288,7 +287,7 @@ export default {
         showRowsPerPage: this.showRowsPerPage,
         currentPage: this.currentPage,
         type: this.value,
-        content: this.input2,
+        content: this.input2.trim(),
       }).then((response) => {
         this.rowsCount = response.data.rowsCount;
         this.tableData = response.data.t;
@@ -303,18 +302,26 @@ export default {
       })
         .then((response) => {
           console.log(response);
-          if (response.msg == -1) {
+          // if (response.msg == -1) {
+          //   this.$message({
+          //     type: "error",
+          //     message: "新增失败，数据库中已经存在该数据",
+          //   });
+          //   return;
+          // }
+          // if (response.code === 0) {
+          //   console.log("这是成功");
+          // }
+          if (response !== undefined) {
+            //新增成功
+            this.reload();
+            this.form = {};
             this.$message({
-              type: "error",
-              message: "新增失败，数据库中已经存在该数据",
+              type: "success",
+              message: "新增成功",
             });
-            return;
+            this.EditDialogFormVisible = false;
           }
-
-          console.log("这是成功");
-          this.reload();
-          this.form = {};
-          this.EditDialogFormVisible = false;
         })
         .catch((error) => {
           console.log("这是错误");
@@ -340,6 +347,10 @@ export default {
       }).then((response) => {
         this.reload();
         this.form = {};
+        this.$message({
+          type: "success",
+          message: "编辑成功",
+        });
         this.EditDialogFormVisible = false;
       });
     },
@@ -362,7 +373,6 @@ export default {
             this.form = {};
             this.EditDialogFormVisible = false;
           });
-
           this.$message({
             type: "success",
             message: "删除成功!",

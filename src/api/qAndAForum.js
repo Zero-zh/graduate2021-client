@@ -36,11 +36,11 @@ export function updateAskQuestion({ id, type, title, remarks, desc }) {
 }
 
 //经验之谈查询
-export function getWorkExperience(token) {
+export function getWorkExperience({ type, content }) {
     return request({
         url: '/qAndAForum/getWorkExperience',
         method: 'get',
-        params: { token }
+        params: { type, content }
     })
 }
 

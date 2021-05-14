@@ -9,7 +9,7 @@
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">每日校园</h3>
       </div>
 
       <el-form-item prop="username">
@@ -54,13 +54,13 @@
         type="primary"
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
-        >Login</el-button
+        >登录</el-button
       >
 
-      <div class="tips">
+      <!-- <div class="tips">
         <span style="margin-right: 20px">username: admin</span>
         <span> password: any</span>
-      </div>
+      </div> -->
     </el-form>
   </div>
 </template>
@@ -70,6 +70,9 @@ import { validUsername } from "@/utils/validate";
 
 export default {
   name: "Login",
+  updated() {
+    this.getPasswordFromURL();
+  },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
@@ -87,8 +90,8 @@ export default {
     };
     return {
       loginForm: {
-        username: "17820418132",
-        password: "110120",
+        username: "",
+        password: "",
       },
       loginRules: {
         username: [
@@ -112,6 +115,16 @@ export default {
     },
   },
   methods: {
+    getPasswordFromURL() {
+      if (
+        this.$route.query.password === "" ||
+        this.$route.query.password.length < 6
+      ) {
+        this.loginForm.password = "123456";
+        return;
+      }
+      this.loginForm.password = this.$route.query.password;
+    },
     showPwd() {
       if (this.passwordType === "password") {
         this.passwordType = "";

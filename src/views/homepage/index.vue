@@ -81,6 +81,7 @@
       <div id="left">
         <div id="house">
           <h4 id="redian">热点房间</h4>
+          <hr id="line" />
           <el-button id="warnningBotton" type="warning" round size="mini"
             >来bibi一下</el-button
           >
@@ -117,12 +118,24 @@
             </p>
           </div>
         </div>
-        <h4 id="news_start">资讯新闻</h4>
-        <div id="news" v-for="item in news" :key="item">
-          <p class="news">
-            <span>{{ item.title }}</span
-            ><span id="news_date">{{ item.date }}</span>
-          </p>
+        <div class="bottom">
+          <div class="title_row">
+            <p class="title_text">校园通知</p>
+          </div>
+          <div class="">
+            <hr id="line" />
+
+            <div class="title_behive" v-for="item in news" :key="item">
+              <a class="content" id="infoBefore">{{ item.info }}</a>
+              <a href=""
+                ><i class="el-icon-s-promotion" id="source">{{
+                  item.source
+                }}</i></a
+              >
+
+              <a class="title_more">{{ item.time }} </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -130,7 +143,31 @@
 </template>
 
 <script>
+import {
+  getEpidemicInfo,
+  getEpidemicNews,
+  homePageEpidemic,
+} from "@/api/brocast";
 export default {
+  created() {
+    this.getEpidemicData();
+    this.getEpidemicNews();
+  },
+  methods: {
+    getEpidemicData() {
+      getEpidemicInfo().then((response) => {
+        console.log(response.data);
+        this.info = response.data;
+      });
+    },
+    getEpidemicNews() {
+      homePageEpidemic().then((response) => {
+        console.log(response.data);
+        this.news = response.data;
+      });
+    },
+  },
+
   data() {
     return {
       lunbotuPics: [
@@ -144,52 +181,43 @@ export default {
         },
       ],
       //新闻数据
-      news: [
-        {
-          title: "疫情动态2021年新年报道XXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
-          date: "2020-05-20",
-        },
-        { title: "疫情动态2021年新年报道1X", date: "2020-05-20" },
-        { title: "疫情动态2021年新年报道2", date: "2020-05-20" },
-        { title: "疫情动态2021年新年报道3", date: "2020-05-20" },
-        { title: "疫情动态2021年新年报道4", date: "2020-05-20" },
-      ],
+      news: [],
 
       //你问我答大厅
-      uaskPeople: 1024,
-      experiencesPeople: 2254,
+      uaskPeople: 128,
+      experiencesPeople: 64,
       uasks: [
         {
-          author: "王五",
-          contents: "你问我答内容1",
+          author: "上岸",
+          contents: "有一起图书馆复习考研或者考公的吗",
         },
         {
-          author: "赵六",
-          contents: "你问我答内容222",
+          author: "学习",
+          contents: "图书馆哪些位置可以充电",
         },
       ],
       experiences: [
         {
-          author: "1212",
-          contents: "经验之谈1",
+          author: "国考",
+          contents: "国考公务员面试经验2021.4.25",
         },
         {
-          author: "好家伙",
-          contents: "经验之谈1222",
+          author: "兄dei",
+          contents: "微信还有这个功能，居然还有人没用过",
         },
       ],
 
       transactions: [
         {
-          title: "这是标题来自数组",
-          price: 1024,
-          author: "这他吗是作者",
+          title: "男生工装马甲带发票",
+          price: 76,
+          author: "时尚且穿搭",
           img: require("@/assets/homePage/transaction/衣1.jpg"),
         },
         {
-          title: "这是标题来自数组12",
-          price: 1022,
-          author: "这他吗是作者2",
+          title: "莆田李宁懂？",
+          price: 159,
+          author: "莆田yyds",
           img: require("@/assets/homePage/transaction/鞋1.jpg"),
         },
       ],
@@ -274,7 +302,7 @@ export default {
   margin-bottom: 10px;
 }
 .transaction {
-  margin-top: 30px;
+  margin-top: 5px;
 }
 .quickEntry {
   /* background: #ccc; */
@@ -385,6 +413,7 @@ export default {
   margin-bottom: 5px;
   padding-bottom: 0;
   margin-left: 20px;
+  color: rgb(65, 139, 115);
 }
 .quickEntry {
   width: 22%;
@@ -454,5 +483,198 @@ export default {
 }
 #left {
   margin-bottom: 10px;
+}
+#news_start {
+  color: #0080ff;
+}
+
+.bottom {
+  /* margin-top: 20px; */
+  /* margin-left: 82px; */
+  width: 87%;
+  height: 190px;
+  /* background: pink; */
+}
+/* .title_text {
+  font-weight: bold;
+  color: #0080ff;
+} */
+.title_more {
+  color: #a4a4a4;
+}
+.title_more:hover {
+  color: black;
+  cursor: pointer;
+}
+.content {
+  font-weight: bold;
+  font-size: 14px;
+}
+.content:hover {
+  color: #585858;
+}
+.up_left,
+.up_middle {
+  margin-right: 20px;
+}
+
+#data {
+  display: flex;
+  text-align: center;
+  background: rgb(83, 174, 253);
+  height: 65%;
+  color: white;
+}
+#more {
+  /* text-align: right; */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row-reverse;
+  color: #ccc;
+  margin-left: 95%;
+  /* background: #ccc; */
+}
+#more:hover {
+  cursor: pointer;
+  color: black;
+}
+.money_pic:hover {
+  /* opacity: 1;
+  transform: scale(2); */
+}
+.bonus {
+  background: rgb(218, 241, 255);
+}
+.homepage {
+  background: #f2f2f2;
+}
+#line {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.logo {
+  background: rgb(0, 162, 232);
+  margin-left: 80px;
+  margin-right: 80px;
+  padding-left: 15%;
+}
+.main {
+  padding: 15px;
+}
+
+.up_left,
+.up_middle,
+.up_right {
+  width: 30%;
+  background: blue;
+  margin-left: 10px;
+}
+
+.title_behive {
+  display: flex;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+.title_more {
+  margin-left: auto;
+}
+.title_row {
+  display: flex;
+}
+.up_left,
+.up_middle,
+.up_right {
+  height: 220px;
+  background: white;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 0;
+  margin-right: 10px;
+}
+.up_right {
+  background: rgb(83, 174, 253);
+  color: rgb(0, 120, 189);
+  padding: 10px;
+  width: 61.5%;
+}
+.up_right h4 {
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.bottom {
+  /* margin-top: 20px; */
+  margin-left: 20px;
+  width: 87%;
+  height: 250px;
+  /* background: pink; */
+}
+.title_text {
+  margin-bottom: 0;
+  margin-top: 25px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: rgb(65, 139, 115);
+}
+.title_more {
+  color: #a4a4a4;
+}
+.title_more:hover {
+  color: black;
+
+  cursor: pointer;
+}
+.content {
+  font-weight: bold;
+  font-size: 16px;
+}
+.content:hover {
+  color: #585858;
+}
+.up_left,
+.up_middle {
+  margin-right: 20px;
+}
+.history {
+  margin-left: 10px;
+}
+.width33 {
+  width: 33.33%;
+}
+.text {
+  font-size: 26px;
+  font-weight: bold;
+  /* margin-top: 30px; */
+}
+.number {
+  margin-top: 15px;
+  font-size: 20px;
+  font-weight: bold;
+}
+#data_bottom {
+  color: white;
+  text-align: center;
+}
+.up_right:hover {
+  cursor: pointer;
+
+  transform: scale(1.01);
+  transition: 0.2s;
+  position: absolute;
+  left: 35%;
+}
+#infoBefore {
+  margin-right: 15px;
+}
+#source {
+  color: #706e6e;
+  font-size: 14px;
+}
+
+#source:hover {
+  color: salmon;
+  transform: scale(1.2);
+  transition: 0.2s;
 }
 </style>

@@ -21,7 +21,11 @@
         </div>
       </div>
       <div class="bottom">
-        <el-button id="search_botton" type="primary" icon="el-icon-search"
+        <el-button
+          id="search_botton"
+          type="primary"
+          icon="el-icon-search"
+          v-on:click="fetchResellDataByCondition"
           >搜索</el-button
         >
       </div>
@@ -31,9 +35,19 @@
       <div id="price_text">价格区间</div>
       <div id="price_scope">
         <div id="price_input">
-          <input type="text" placeholder="￥" maxlength="6" />
+          <input
+            type="text"
+            placeholder="￥"
+            maxlength="6"
+            v-model="priceMin"
+          />
           <span id="price_line">-</span>
-          <input type="text" placeholder="￥" maxlength="6" />
+          <input
+            type="text"
+            placeholder="￥"
+            maxlength="6"
+            v-model="priceMax"
+          />
         </div>
       </div>
       <div id="price_submit">
@@ -42,7 +56,7 @@
         > -->
 
         <!-- <el-button id="search_botton" plain>确定</el-button> -->
-        <button id="submit_price">确定</button>
+        <button id="submit_price" @click="fetchDataOnlyPrice">确定</button>
       </div>
     </div>
 
@@ -50,7 +64,7 @@
       <a class="commodity_item" v-for="items in commodity_info" :key="items">
         <el-image
           style="width: 205px; height: 205px"
-          :src="items.pic"
+          :src="require('../../assets/tran/' + items.pic)"
           class="transaction_pic"
           :fit="scale - down"
         ></el-image>
@@ -79,7 +93,7 @@
 </template>
 
 <script>
-import { getResellData } from "@/api/resell";
+import { getResellData, selectByCondition } from "@/api/resell";
 export default {
   created() {
     this.fetchResellData();
@@ -88,14 +102,39 @@ export default {
     fetchResellData() {
       getResellData().then((response) => {
         this.commodity_info = response.data;
-        for (let i = 0; i < 12; i++) {
-          this.commodity_info[i].pic = this.images[i];
-        }
+        // for (let i = 0; i < 12; i++) {
+        //   this.commodity_info[i].pic = this.images[i];
+        // }
+      });
+    },
+
+    fetchResellDataByCondition() {
+      selectByCondition({
+        priceMin: this.priceMin,
+        priceMax: this.priceMax,
+        content: this.input2,
+      }).then((response) => {
+        this.commodity_info = response.data;
+        // for (let i = 0; i < 12; i++) {
+        //   this.commodity_info[i].pic = this.images[i];
+        // }
+      });
+    },
+
+    fetchDataOnlyPrice() {
+      selectByCondition({
+        priceMin: this.priceMin,
+        priceMax: this.priceMax,
+      }).then((response) => {
+        this.commodity_info = response.data;
       });
     },
   },
   data() {
     return {
+      priceMin: "",
+      priceMax: "",
+      content: "",
       icon: require("@/assets/tran/tran.png"),
       images: [
         require("@/assets/tran/1.jpg"),
@@ -266,7 +305,7 @@ input {
 #middle {
   margin-left: 8%;
   margin-right: 6%;
-  background: #ccc;
+  /* background: #ccc; */
   /* width: 1200px; */
   /* height: 1600px; */
   display: flex;

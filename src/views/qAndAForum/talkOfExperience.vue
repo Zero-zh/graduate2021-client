@@ -27,7 +27,7 @@
             id="search_botton"
             type="primary"
             icon="el-icon-search"
-            v-on:click="fetchAskAndAnswerData"
+            v-on:click="fetchTalkExperienceData"
             >搜索</el-button
           >
         </div>
@@ -84,7 +84,7 @@
         </el-table>
       </div>
       <div>
-        <PageHelper />
+        <!-- <PageHelper /> -->
       </div>
     </div>
     <!-- 提出问题 -->
@@ -160,7 +160,12 @@ export default {
       this.form = {};
     },
     fetchTalkExperienceData() {
-      getWorkExperience().then((response) => {
+      getWorkExperience({
+        // showRowsPerPage: this.showRowsPerPage,
+        // currentPage: this.currentPage,
+        type: this.value,
+        content: this.input2.trim(),
+      }).then((response) => {
         console.log(response.data);
         this.tableData = response.data;
       });
@@ -209,10 +214,6 @@ export default {
         {
           value: "娱乐",
           label: "选项5",
-        },
-        {
-          value: "学习",
-          label: "选项6",
         },
       ],
     };
