@@ -93,7 +93,6 @@ export const constantRoutes = [
   {
     path: '/broadcast',
     component: Layout,
-    // redirect: '/activity/competition',
     name: 'broadcast',
     meta: { title: '广播报道', icon: 'el-icon-position' },
     children: [

@@ -294,6 +294,19 @@ export default {
       });
     },
     askQuestionFromTable() {
+      if (
+        this.form.type === "" ||
+        this.form.title === "" ||
+        this.form.remarks === "" ||
+        this.form.desc === ""
+      ) {
+        //内容不能为空
+        this.$message({
+          type: "error",
+          message: "内容不能为空",
+        });
+        return;
+      }
       addAskQuestion({
         type: this.form.type,
         title: this.form.title,
